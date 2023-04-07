@@ -15,7 +15,7 @@ let handleUserLogin = (email, password) => {
                     // attributes: {
                     //     include: ['email', 'password', 'roleId'],
                     // },
-                    attributes: ['email', 'password', 'roleId'],
+                    attributes: ['email', 'password', 'roleId', 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true
                 })
@@ -201,10 +201,36 @@ let deleteUser = (userId) => {
     })
 }
 
+let getAllCodeService = (type) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!type) {
+                resolve({
+                    errorCode: 1,
+                    message: 'Missing required parameters'
+                })
+            } else {
+                let res = {};
+                let allCode = await db.Allcode.findAll({
+                    where: { type: type },
+                });
+                res.errorCode = 0;
+                res.data = allCode;
+
+                resolve(res);
+            }
+
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     updateUserData: updateUserData,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    getAllCodeService: getAllCodeService
 }
