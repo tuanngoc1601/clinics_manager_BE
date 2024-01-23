@@ -1,4 +1,5 @@
 "use strict";
+import { v4 as uuidv4 } from "uuid";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
@@ -29,5 +30,10 @@ module.exports = (sequelize, DataTypes) => {
             tableName: "users",
         }
     );
+
+    User.addHook("beforeSave", async (user) => {
+        return (user.id = uuidv4());
+    });
+
     return User;
 };
