@@ -14,6 +14,24 @@ const clinicService = {
             }
         });
     },
+    handleGetClinicDetailService: (clinicId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const clinic = await db.Clinic.findOne({
+                    where: { id: clinicId },
+                    raw: true,
+                });
+
+                if (clinic) {
+                    resolve(clinic);
+                } else {
+                    resolve(null);
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
 };
 
 module.exports = clinicService;
