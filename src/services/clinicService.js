@@ -19,7 +19,18 @@ const clinicService = {
             try {
                 const clinic = await db.Clinic.findOne({
                     where: { id: clinicId },
-                    raw: true,
+                    include: [
+                        {
+                            model: db.Doctor,
+                            attributes: [
+                                "id",
+                                "name",
+                                "image",
+                                "description",
+                                "address",
+                            ],
+                        },
+                    ],
                 });
 
                 if (clinic) {

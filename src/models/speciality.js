@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Speciality.belongsToMany(models.Doctor, {
+                through: "Doctor_Speciality",
+                foreignKey: "speciality_id",
+            });
         }
     }
     Speciality.init(
