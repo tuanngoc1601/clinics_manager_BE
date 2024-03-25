@@ -12,8 +12,9 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Doctor.belongsTo(models.Clinic, { foreignKey: "clinic_id" });
             Doctor.belongsToMany(models.Speciality, {
+                as: "specialities",
                 through: "Doctor_Speciality",
-                foreignKey: "doctor_id",
+                // foreignKey: "doctor_id",
             });
         }
     }

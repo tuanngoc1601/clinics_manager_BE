@@ -14,6 +14,14 @@ const doctorService = {
                             attributes: ["name", "address"],
                             required: true,
                         },
+                        {
+                            model: db.Speciality,
+                            as: "specialities",
+                            attributes: ["id", "name"],
+                            through: {
+                                attributes: [],
+                            },
+                        },
                     ],
                 });
 

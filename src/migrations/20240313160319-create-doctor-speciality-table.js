@@ -9,13 +9,22 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.UUIDV4,
             },
-            doctor_id: {
+            doctorId: {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            speciality_id: {
+            specialityId: {
                 allowNull: false,
                 type: Sequelize.STRING,
+            },
+
+            createdAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
+            },
+            updatedAt: {
+                allowNull: false,
+                type: Sequelize.DATE,
             },
         });
     },
