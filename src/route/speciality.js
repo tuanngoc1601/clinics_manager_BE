@@ -10,6 +10,11 @@ let initSpecialityRoutes = (app) => {
         specialityController.handleGetAllSpecialities
     );
 
+    router.get(
+        "/get-speciality-detail/:specialityId",
+        specialityController.handleGetSpecialityDetail
+    );
+
     return app.use("/api/v1/speciality", router);
 };
 
