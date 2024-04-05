@@ -60,6 +60,23 @@ const authService = {
         });
     },
 
+    checkAdminEmail: (adminEmail) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let admin = await db.Admin.findOne({
+                    where: {
+                        email: adminEmail,
+                    },
+                    raw: true,
+                });
+
+                resolve(admin);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+
     handleCreateNewUser: (data) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -93,6 +110,71 @@ const authService = {
             try {
                 let hashPassword = await bcrypt.hashSync(password, salt);
                 resolve(hashPassword);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+
+    // admin service handle
+    handleLoginAdminService: (email, password) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const admin = await authService.checkAdminEmail(email);
+
+                if (!admin) {
+                    resolve({
+                        status: 404,
+                        message: "Email is not found",
+                    });
+                } else {
+                    let checkPassword = await bcrypt.compareSync(
+                        password,
+                        admin.password
+                    );
+
+                    if (!checkPassword) {
+                        resolve({
+                            status: 403,
+                            message: "Wrong password",
+                        });
+                    } else {
+                        const { password, ...data } = admin;
+
+                        resolve({
+                            status: 200,
+                            message: "OK",
+                            data: data,
+                        });
+                    }
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+    handleRegisterAdminService: (data) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const admin = await authService.checkAdminEmail(data.email);
+                if (admin) {
+                    resolve({
+                        status: 400,
+                        message: "Email is existed",
+                    });
+                } else {
+                    const hashPassword = await authService.hashUserPassword(
+                        data.password
+                    );
+                    await db.Admin.create({
+                        ...data,
+                        password: hashPassword,
+                    });
+                    resolve({
+                        status: 201,
+                        message: "OK",
+                    });
+                }
             } catch (e) {
                 reject(e);
             }

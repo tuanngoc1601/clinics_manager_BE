@@ -38,7 +38,7 @@ const authController = {
         return jwt.sign(
             {
                 id: data.id,
-                admin: data.is_admin,
+                gender: data.gender,
             },
             process.env.JWT_ACCESS_KEY,
             { expiresIn: "2m" }
@@ -49,7 +49,7 @@ const authController = {
         return jwt.sign(
             {
                 id: data.id,
-                admin: data.is_admin,
+                gender: data.gender,
             },
             process.env.JWT_REFRESH_KEY,
             { expiresIn: "365d" }
@@ -83,6 +83,53 @@ const authController = {
     handleLogout: async (req, res) => {
         res.clearCookie("refreshToken");
         return res.status(200).json({ message: "Logout successfully!" });
+    },
+
+    // admin handler
+    handleLoginAdmin: async (req, res) => {
+        let email = req.body.email;
+        let password = req.body.password;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Invalid parameters",
+            });
+        }
+
+        const response = await authService.handleLoginAdminService(
+            email,
+            password
+        );
+
+        if (response.status !== 200) {
+            return res.status(response.status).json({
+                message: response.message,
+            });
+        }
+
+        const accessToken = authController.generateAccessToken(response.data);
+        const refreshToken = authController.generateRefreshToken(response.data);
+        
+        return res
+            .cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                secure: false,
+                path: "/",
+                sameSite: "strict",
+            })
+            .status(200)
+            .json({
+                message: response.message,
+                data: { ...response.data, accessToken },
+            });
+    },
+    handleRegisterAdmin: async (req, res) => {
+        let admin = req.body;
+        const response = await authService.handleRegisterAdminService(admin);
+
+        return res.status(response.status).json({
+            message: response.message,
+        });
     },
 };
 
