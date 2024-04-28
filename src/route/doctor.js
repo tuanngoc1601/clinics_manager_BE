@@ -9,6 +9,7 @@ let initDoctorRoutes = (app) => {
         "/get-doctor-by-id/:doctorId",
         doctorController.handleGetDoctorDetail
     );
+    router.get("/get-all-doctor-clinic/:clinic_id", doctorController.handleGetDoctorClinic);
 
     return app.use("/api/v1/doctor", router);
 };

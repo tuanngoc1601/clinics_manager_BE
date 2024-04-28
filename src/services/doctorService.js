@@ -35,6 +35,23 @@ const doctorService = {
             }
         });
     },
+    handleGetDoctorClinicService: (clinic_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const data = await db.Doctor.findAll({
+                    where: {
+                        clinic_id: clinic_id,
+                    },
+                    raw: true,
+                });
+
+                resolve(data);
+                
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
 };
 
 module.exports = doctorService;

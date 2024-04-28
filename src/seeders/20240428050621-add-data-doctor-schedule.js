@@ -1,0 +1,102 @@
+"use strict";
+
+module.exports = {
+    up: async (queryInterface, Sequelize) => {
+        return queryInterface.bulkInsert("doctor_schedules", [
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 1,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 2,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 3,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 4,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 5,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 7,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 12,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 14,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                clinic_id: "0a8e9048-2a1b-4428-9d72-2e01e9f0eb46",
+                doctor_id: "083ef97f-c010-434e-b810-1ce44b3e7b30",
+                time_id: 15,
+                booking_date: "2024-04-28",
+                status_id: 1,
+                price: 300000,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+        ]);
+    },
+
+    down: async (queryInterface, Sequelize) => {
+        return queryInterface.bulkDelete("doctor_schedules", null, {});
+    },
+};

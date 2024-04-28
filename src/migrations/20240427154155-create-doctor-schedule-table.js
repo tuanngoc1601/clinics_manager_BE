@@ -23,9 +23,9 @@ module.exports = {
             },
             booking_date: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.STRING,
             },
-            status: {
+            status_id: {
                 allowNull: false,
                 type: Sequelize.INTEGER,
             },
