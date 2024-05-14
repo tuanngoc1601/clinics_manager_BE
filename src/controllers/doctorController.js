@@ -23,7 +23,7 @@ const doctorController = {
         });
     },
     handleGetDoctorClinic: async (req, res) => {
-        const clinic_id = req.params.clinic_id;``
+        const clinic_id = req.params.clinic_id;
 
         if (!clinic_id) {
             return res.status(404).json({
@@ -38,6 +38,25 @@ const doctorController = {
         return res.status(200).json({
             message: "OK",
             data: response,
+        });
+    },
+    handleUpdateDoctorInfo: async (req, res) => {
+        const doctor_id = req.params.doctor_id;
+        const info = req.body;
+
+        if (!doctor_id || !info) {
+            return res.status(400).json({
+                message: "Missing input parameters",
+            });
+        }
+
+        const response = await doctorService.handleUpdateDoctorInfo(
+            doctor_id,
+            info
+        );
+
+        return res.status(response.status).json({
+            message: response.message,
         });
     },
 };

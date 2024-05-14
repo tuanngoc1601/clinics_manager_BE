@@ -46,9 +46,41 @@ const doctorService = {
                 });
 
                 resolve(data);
-                
             } catch (e) {
                 reject(e);
+            }
+        });
+    },
+    handleUpdateDoctorInfo: (doctor_id, info) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const doctor = await db.Doctor.findOne({
+                    where: {
+                        id: doctor_id,
+                    },
+                });
+
+                if (!doctor) {
+                    resolve({
+                        status: 404,
+                        message: "doctor not found",
+                    });
+                }
+
+                doctor.email = info.email;
+                doctor.name = info.name;
+                doctor.address = info.address;
+                doctor.description = info.description;
+                doctor.introduction = info.introduction;
+
+                await doctor.save();
+
+                resolve({
+                    status: 200,
+                    message: "OK",
+                });
+            } catch (err) {
+                reject(err);
             }
         });
     },
