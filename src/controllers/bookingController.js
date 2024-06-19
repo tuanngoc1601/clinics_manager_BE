@@ -36,6 +36,42 @@ const bookingController = {
             message: response.message,
         });
     },
+    handleGetBookingClinic: async (req, res) => {
+        const clinic_id = req.params.clinic_id;
+
+        if (!clinic_id) {
+            return res.status(400).json({
+                message: "Invalid parameter",
+            });
+        }
+
+        const response = await bookingService.handleGetBookingClinicService(
+            clinic_id
+        );
+
+        return res.status(response.status).json({
+            message: response.message,
+            data: response.data,
+        });
+    },
+    handleGetPatientClinics: async (req, res) => {
+        const clinic_id = req.params.clinic_id;
+
+        if (!clinic_id) {
+            return res.status(400).json({
+                message: "Invalid parameter",
+            });
+        }
+
+        const response = await bookingService.handleGetPatientClinicService(
+            clinic_id
+        );
+
+        return res.status(response.status).json({
+            message: response.message,
+            data: response.data,
+        });
+    },
 };
 
 module.exports = bookingController;
