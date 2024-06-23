@@ -67,6 +67,12 @@ const authService = {
                     where: {
                         email: adminEmail,
                     },
+                    include: [
+                        {
+                            model: db.Clinic,
+                            attributes: ["name", "avatar", "image"],
+                        },
+                    ],
                     raw: true,
                 });
 

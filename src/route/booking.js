@@ -12,6 +12,7 @@ let initBookingRoutes = (app) => {
     router.post("/booking-schedule", bookingController.handleBookingSchedule);
     router.get("/get-booking/:clinic_id", bookingController.handleGetBookingClinic);
     router.get("/get-patients/:clinic_id", bookingController.handleGetPatientClinics);
+    router.put("/confirm-booking/:booking_id", bookingController.handleConfirmBooking);
 
     return app.use("/api/v1/booking", router);
 };

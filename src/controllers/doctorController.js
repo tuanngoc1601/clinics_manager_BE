@@ -59,6 +59,23 @@ const doctorController = {
             message: response.message,
         });
     },
+    handleDeleteDoctor: async (req, res) => {
+        const doctor_id = req.body.doctor_id;
+
+        if (!doctor_id) {
+            return res.status(400).json({
+                message: "Missing input parameter",
+            });
+        }
+
+        const response = await doctorService.hanldeDeleteDoctorService(
+            doctor_id
+        );
+
+        return res.status(response.status).json({
+            message: response.message,
+        });
+    },
 };
 
 module.exports = doctorController;

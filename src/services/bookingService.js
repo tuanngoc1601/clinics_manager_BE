@@ -163,6 +163,48 @@ const bookingService = {
             }
         });
     },
+    handleConfirmBookingService: (booking_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const booking = await db.Booking.findOne({
+                    where: {
+                        id: booking_id,
+                    },
+                });
+
+                if (!booking) {
+                    resolve({
+                        status: 404,
+                        message: "Not found",
+                    });
+                } else {
+                    const schedule = await db.Doctor_Schedule.findOne({
+                        where: {
+                            id: booking.schedule_id,
+                        },
+                    });
+
+                    if (!schedule) {
+                        resolve({
+                            status: 403,
+                            message: "Confirm failed",
+                        });
+                    } else {
+                        schedule.status_id = 3;
+
+                        await schedule.save();
+
+                        resolve({
+                            status: 200,
+                            message: "Ok",
+                        });
+                    }
+                }
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
 };
 
 module.exports = bookingService;

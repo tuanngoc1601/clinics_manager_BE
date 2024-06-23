@@ -84,6 +84,33 @@ const doctorService = {
             }
         });
     },
+    hanldeDeleteDoctorService: (doctor_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const doctor = await db.Doctor.findOne({
+                    where: {
+                        id: doctor_id,
+                    },
+                });
+
+                if (!doctor) {
+                    resolve({
+                        status: 404,
+                        message: "Not found!",
+                    });
+                } else {
+                    await doctor.destroy();
+
+                    resolve({
+                        status: 200,
+                        message: "Ok",
+                    });
+                }
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
 };
 
 module.exports = doctorService;

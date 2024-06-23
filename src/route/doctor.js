@@ -17,6 +17,7 @@ let initDoctorRoutes = (app) => {
         "/update-doctor-info/:doctor_id",
         doctorController.handleUpdateDoctorInfo
     );
+    router.delete("/delete-doctor", doctorController.handleDeleteDoctor);
 
     return app.use("/api/v1/doctor", router);
 };

@@ -72,6 +72,23 @@ const bookingController = {
             data: response.data,
         });
     },
+    handleConfirmBooking: async (req, res) => {
+        const booking_id = req.params.booking_id;
+
+        if (!booking_id) {
+            return res.status(400).json({
+                message: "Invalid parameters",
+            });
+        }
+
+        const response = await bookingService.handleConfirmBookingService(
+            booking_id
+        );
+
+        return res.status(response.status).json({
+            message: response.message,
+        });
+    },
 };
 
 module.exports = bookingController;
