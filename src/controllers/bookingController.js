@@ -89,6 +89,24 @@ const bookingController = {
             message: response.message,
         });
     },
+    handleGetBookingUser: async (req, res) => {
+        const user_id = req.params.user_id;
+
+        if (!user_id) {
+            return res.status(400).json({
+                message: "Invalid parameter",
+            });
+        }
+
+        const bookingResp = await bookingService.handleGetUserBookingService(
+            user_id
+        );
+
+        return res.status(bookingResp.status).json({
+            message: bookingResp.message,
+            data: bookingResp?.data,
+        });
+    },
 };
 
 module.exports = bookingController;

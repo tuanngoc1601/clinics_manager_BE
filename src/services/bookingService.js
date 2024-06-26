@@ -142,6 +142,7 @@ const bookingService = {
                         {
                             model: db.User,
                             attributes: [
+                                "id",
                                 "firstName",
                                 "lastName",
                                 "email",
@@ -199,6 +200,65 @@ const bookingService = {
                             message: "Ok",
                         });
                     }
+                }
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+    handleGetUserBookingService: (user_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const userBooking = await db.User.findOne({
+                    where: {
+                        id: user_id,
+                    },
+                    attributes: {
+                        exclude: ["password"],
+                    },
+                    include: [
+                        {
+                            model: db.Booking,
+                            attributes: [
+                                "id",
+                                "schedule_id",
+                                "patient_name",
+                                "birth_date",
+                                "reason",
+                            ],
+                            include: [
+                                {
+                                    model: db.Doctor_Schedule,
+                                    include: [
+                                        {
+                                            model: db.Doctor,
+                                        },
+                                        {
+                                            model: db.Time_Code,
+                                            as: "time",
+                                        },
+                                        {
+                                            model: db.Status_Code,
+                                            as: "status",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                });
+
+                if (!userBooking) {
+                    resolve({
+                        message: "Not found",
+                        status: 404,
+                    });
+                } else {
+                    resolve({
+                        status: 200,
+                        message: "OK",
+                        data: userBooking,
+                    });
                 }
             } catch (err) {
                 reject(err);
