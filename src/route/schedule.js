@@ -1,6 +1,6 @@
 import express from "express";
 import scheduleController from "../controllers/scheduleController";
-// import authentication from "../middlewares/authentication";
+import authentication from "../middlewares/authentication";
 
 let router = express.Router();
 
@@ -9,13 +9,19 @@ let initScheduleRoutes = (app) => {
         "/get-schedule-doctor/:doctorId/:dateString",
         scheduleController.handleGetScheduleDoctor
     );
-    router.get("/get-all-time-code", scheduleController.handleGetAllTimeCode);
+    router.get(
+        "/get-all-time-code",
+        authentication.verifyToken,
+        scheduleController.handleGetAllTimeCode
+    );
     router.post(
         "/add-schedule-time-doctor",
+        authentication.verifyToken,
         scheduleController.handleAddScheduleTimeDoctor
     );
     router.delete(
         "/delete-schedule-time-doctor",
+        authentication.verifyToken,
         scheduleController.handleDeleteScheduleTimeDoctor
     );
 

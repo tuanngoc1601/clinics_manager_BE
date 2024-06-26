@@ -5,8 +5,12 @@ import clinicController from "../controllers/clinicController";
 let router = express.Router();
 
 let initClinicRoutes = (app) => {
+    // client routes
     router.get("/get-all-clinics", clinicController.handleGetAllClinics);
-    router.get("/get-clinic-by-id/:clinicId", clinicController.handleGetClinicDetail);
+    router.get(
+        "/get-clinic-by-id/:clinicId",
+        clinicController.handleGetClinicDetail
+    );
 
     return app.use("/api/v1/clinic", router);
 };
