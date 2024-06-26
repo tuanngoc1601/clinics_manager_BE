@@ -1,5 +1,14 @@
 import { Op } from "sequelize";
 import db from "../models/index";
+import nodemailer from "nodemailer";
+
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.MAIL_ADDRESS,
+        pass: process.env.MAIL_PASSWORD,
+    },
+});
 
 const bookingService = {
     handleGetInfoBookingService: (schedule_id) => {
@@ -61,8 +70,9 @@ const bookingService = {
                         message: "schedule is booked!",
                     });
                 } else {
+                    const { email, ...bookingData } = data;
                     await db.Booking.create({
-                        ...data,
+                        ...bookingData,
                     });
 
                     const booking = await db.Doctor_Schedule.findOne({
@@ -74,6 +84,21 @@ const bookingService = {
                     booking.status_id = 2;
 
                     await booking.save();
+
+                    let mailOptions = {
+                        from: process.env.MAIL_ADDRESS,
+                        to: email,
+                        subject: "Booking Schedule Notify",
+                        text: "Booking successfully!",
+                        html: "<b>Booking successfully!</b>",
+                    };
+
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            return console.log(`Error: ${error}`);
+                        }
+                        console.log(`Message Sent: ${info.response}`);
+                    });
 
                     resolve({
                         status: 201,

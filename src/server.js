@@ -1,12 +1,12 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import express from "express";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import viewEngine from './config/viewEngine';
-import { initWebRoutes } from './route';
-import connectDB from './config/connectDB';
-import cors from 'cors';
+import viewEngine from "./config/viewEngine";
+import { initWebRoutes } from "./route";
+import connectDB from "./config/connectDB";
+import cors from "cors";
 
-require('dotenv').config();
+require("dotenv").config();
 
 let app = express();
 
