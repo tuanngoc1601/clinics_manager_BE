@@ -79,6 +79,21 @@ const bookingService = {
                         where: {
                             id: data.schedule_id,
                         },
+                        include: [
+                            {
+                                model: db.Doctor,
+                                attributes: ["name"],
+                            },
+                            {
+                                model: db.Clinic,
+                                attributes: ["name"],
+                            },
+                            {
+                                model: db.Time_Code,
+                                as: "time",
+                                attributes: ["value"],
+                            },
+                        ],
                     });
 
                     booking.status_id = 2;
@@ -88,9 +103,10 @@ const bookingService = {
                     let mailOptions = {
                         from: process.env.MAIL_ADDRESS,
                         to: email,
-                        subject: "Booking Schedule Notify",
-                        text: "Booking successfully!",
-                        html: "<b>Booking successfully!</b>",
+                        subject:
+                            "THỐNG BÁO XÁC NHẬN ĐẶT LỊCH KHÁM TRÊN NỀN TẢNG HEALTH GRADES",
+                        text: "Đặt lịch khám thành công",
+                        html: `<b>Hệ thống xin thông báo bạn đã đặt lịch khám thành công bác sĩ ${booking.Doctor.name} tại cơ sở yế ${booking.Clinic.name} vào khung giờ ${booking.time.value}</b>`,
                     };
 
                     transporter.sendMail(mailOptions, (error, info) => {
@@ -125,6 +141,10 @@ const bookingService = {
                                     model: db.Status_Code,
                                     attributes: ["value"],
                                     as: "status",
+                                },
+                                {
+                                    model: db.Doctor,
+                                    attributes: ["name"],
                                 },
                             ],
                         },
@@ -283,6 +303,55 @@ const bookingService = {
                         status: 200,
                         message: "OK",
                         data: userBooking,
+                    });
+                }
+            } catch (err) {
+                reject(err);
+            }
+        });
+    },
+    handlGetBookingDetailService: (booking_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const booking = await db.Booking.findOne({
+                    where: {
+                        id: booking_id,
+                    },
+                    include: [
+                        {
+                            model: db.User,
+                        },
+                        {
+                            model: db.Doctor_Schedule,
+                            include: [
+                                {
+                                    model: db.Doctor,
+                                },
+                                {
+                                    model: db.Time_Code,
+                                    as: "time",
+                                    attributes: ["value"],
+                                },
+                                {
+                                    model: db.Status_Code,
+                                    as: "status",
+                                    attributes: ["value"],
+                                },
+                            ],
+                        },
+                    ],
+                });
+
+                if (!booking) {
+                    resolve({
+                        status: 404,
+                        message: "Not found",
+                    });
+                } else {
+                    resolve({
+                        status: 200,
+                        message: "OK",
+                        data: booking,
                     });
                 }
             } catch (err) {

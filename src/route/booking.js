@@ -36,6 +36,11 @@ let initBookingRoutes = (app) => {
         authentication.verifyToken,
         bookingController.handleGetBookingUser
     );
+    router.get(
+        "/booking-detail/:booking_id",
+        authentication.verifyToken,
+        bookingController.handleGetBookingDetail
+    );
 
     return app.use("/api/v1/booking", router);
 };
